@@ -131,7 +131,7 @@ public:
 	bool Item(string p1, string* p2);
 	bool factor(string* p);
 	bool condition(vector<int> &trueList, vector<int> &falseList);
-	
+	bool isAllBC();
 };
 
 

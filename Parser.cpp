@@ -68,6 +68,15 @@ Parser::Parser(vector<string> input) {
 	p = 0;
 }
 
+bool Parser::isAllBC() {
+	bool isAllBC = true;
+	for (int i = 0; i < code[p].size() && isAllBC; i++) {
+		if (code[p][i] != ' ')
+			isAllBC = false;
+	}
+	return isAllBC;
+}
+
 // 读取第p行的程序
 bool Parser::readline() {
 	// 程序已全部读过一遍
@@ -75,6 +84,13 @@ bool Parser::readline() {
 		// 在line的最后添加一个表示程序结束的元组
 		line.push_back({$ERROR,"OVER",0});
 		return true;
+	}
+	while (true)
+	{
+		if (isAllBC())
+			p++;
+		else
+			break;
 	}
 	// 读取下一行程序
 	Lexer lex(code[p]);
