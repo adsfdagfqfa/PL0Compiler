@@ -1,2 +1,0 @@
-D:\大学课程\大三上\编译原理\PL0Compiler\x64\Debug\PL0Compiler.exe
-E:\Courses\CompilationPrinciple\PL0\compiler\x64\Debug\PL0Compiler.exe
