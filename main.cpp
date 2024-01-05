@@ -47,10 +47,11 @@ int main() {
 		cerr << "无法打开文件!" << std::endl;
 		return 1; // 返回错误代码
 	}
-	
+	int addr = 100;
 	for (auto& entry : intermediateCode) {
-		cout << entry.insType<<" "<<entry.arg1<<" "<<entry.arg2<<" "<<entry.result << endl;
-		out << entry.insType << " " << entry.arg1 << " " << entry.arg2 << " " << entry.result << endl;
+		cout << addr << ": " << entry.insType << " " << entry.arg1 << " " << entry.arg2 << " " << entry.result << endl;
+		out << addr << ": " << entry.insType << " " << entry.arg1 << " " << entry.arg2 << " " << entry.result << endl;
+		addr++;
 	}
 	out.close();
 	cout << "中间代码已写入文件：target.txt当中" << endl;
