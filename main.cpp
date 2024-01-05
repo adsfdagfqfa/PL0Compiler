@@ -47,11 +47,7 @@ int main() {
 		cerr << "无法打开文件!" << std::endl;
 		return 1; // 返回错误代码
 	}
-	for (auto& entry : table) {
-		cout << entry.kind << " " << entry.name<< " " << endl;
-		out << entry.kind << " " << entry.name << " " << endl;
-	}	
-
+	
 	for (auto& entry : intermediateCode) {
 		cout << entry.insType<<" "<<entry.arg1<<" "<<entry.arg2<<" "<<entry.result << endl;
 		out << entry.insType << " " << entry.arg1 << " " << entry.arg2 << " " << entry.result << endl;
