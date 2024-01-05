@@ -10,6 +10,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
@@ -22,7 +23,6 @@ struct Comtab//储存标识符的结构体
 {
 	string name;//标识符名字
 	int kind;//标识符的种类（常量或是变量）,0表示常量，1表示变量
-	int value;//数值
 };
 
 struct Quadruple//储存标识符的结构体
@@ -70,10 +70,6 @@ private:
 	size_t currentPos;
 	// 存放输入的字符串代码
 	string targetCode;
-public:
-	Lexer(string& oriCode);
-	// 获取符号表
-	vector<Token> getTokenList();
 	// 判断ch中的字符是否为字母
 	bool IsLetter();
 	// 判断ch中的字符是否为数字
@@ -100,7 +96,12 @@ public:
 	void Retract();
 	// 将strToken中的标识符插入符号表
 	void InsertToken(TokenType type, string value, int numValue);
+	// 判断是不是关键字的字符
 	bool IsKeyLetter();
+public:
+	Lexer(string& oriCode);
+	// 获取符号表
+	vector<Token> getTokenList();
 	// 生成符号表
 	bool generateTokenList();
 };
@@ -109,10 +110,6 @@ class Parser {
 private:
 	vector<string> code;
 	int p;
-public:
-	Parser(vector<string> input);
-	bool readline();
-	bool program();
 	bool head();
 	bool block();
 	bool identifier(Comtab* p);
@@ -132,11 +129,11 @@ public:
 	bool factor(string* p);
 	bool condition(vector<int> &trueList, vector<int> &falseList);
 	bool isAllBC();
+	bool readline();
+public:
+	Parser(vector<string> input);
+	bool program();
+
 };
 
-
-
-
-
-// 单词符号列表项
 #endif // MYCLASS_H

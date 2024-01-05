@@ -32,11 +32,6 @@ int main() {
 	//fileRead.open(fileName);
 	//oriCode = "CONST x:=1,END";
 	Lexer lex(oriCode);
-	
-	for (auto entry : input) {
-		cout << entry << endl;
-	}
-
 
 	Parser parser(input);
 	bool result = parser.program();
@@ -46,22 +41,21 @@ int main() {
 	else {
 		cout << "语法分析结果：refused！" << endl;
 	}
+	fstream out;
+	out.open("target.txt",ios::out);
+	if (!out.is_open()) {
+		cerr << "无法打开文件!" << std::endl;
+		return 1; // 返回错误代码
+	}
 	for (auto& entry : table) {
 		cout << entry.kind << " " << entry.name<< " " << entry.value  << endl;
+		out << entry.kind << " " << entry.name << " " << entry.value << endl;
 	}	
 	for (auto& entry : intermediateCode) {
 		cout << entry.insType<<" "<<entry.arg1<<" "<<entry.arg2<<" "<<entry.result << endl;
+		out << entry.insType << " " << entry.arg1 << " " << entry.arg2 << " " << entry.result << endl;
 	}
-	/*if (lex.generateTokenList()) {
-		vector<Token> result = lex.getTokenList();
-		for (int i = 0; i < result.size(); i++) {
-			cout << result[i].type << " " << result[i].value << " " << result[i].numValue << endl;
-		}
-	}
-	else {
-		cout << "词法分析出错" << endl;
-		return -1;
-	}*/
-	//fileRead.close();
+	out.close();
+	cout << "中间代码已写入文件：target.txt当中" << endl;
 	return 0;
 }

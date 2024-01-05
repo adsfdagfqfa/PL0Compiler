@@ -121,12 +121,13 @@ bool Parser::program() {
 		}
 	}
 	if (b == false) {
-		cout << "当前分析字符：" << line[i].value << endl;
+		cout << "当前分析语句：" << code[p - 1] << endl;
 	}
 	else {
 		// 如果此时line[i].type并不是ERROR，说明语句还没有全部分析完，报错。
 		if (line[i].type != 0) {
 			b = false;
+			cout << "当前分析语句：" << code[p - 1] << endl;
 		}
 	}
 	return b;
@@ -368,7 +369,7 @@ bool Parser::statement(vector<int> &NextList) {
 		b = compoundStatement(NextList);
 	}
 	// 判断是否为空语句
-	else if (line[i].type == 0) {
+	else if (line[i].type == 0 || line[i].type == 25 || line[i].type == 3) {
 		b = true;
 	}
 	return b;
@@ -449,6 +450,7 @@ bool Parser::ifStatement(vector<int>&NextList) {
 		}
 		else {
 			b = false;
+			return b;
 		}
 	}
 
@@ -500,6 +502,7 @@ bool Parser::whileStatement(vector<int>&NextList) {
 		}
 		else {
 			b = false;
+			return b;
 		}
 	}
 	for (auto entry : nextList) {
@@ -571,6 +574,7 @@ bool Parser::compoundStatement(vector<int>& NextList) {
 		}
 		else {
 			b = false;
+			return b;
 		}
 	}
 	NextList = nextList;

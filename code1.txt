@@ -1,8 +1,0 @@
-PROGRAM add
-CONST a:=1,b:=2;
-VAR x;
-  
-BEGIN
-IF a <b THEN x:=0 ;
-x:=x+1
-END
