@@ -1,20 +1,7 @@
-100: / 8 7 Temp0
-101: - 9 Temp0 Temp1
-102: * 1 Temp1 Temp2
-103: := -Temp2 _ Temp3
-104: + Temp3 5 Temp4
-105: := Temp4 _ x
-106: := -10 _ Temp5
-107: := Temp5 _ y
-108: := 2 _ y
-109: j< x 5 111
-110: j _ _ 114
-111: + x 1 Temp6
-112: := Temp6 _ x
-113: j _ _ 109
-114: j> y 0 116
-115: j _ _ 118
-116: - y 1 Temp7
-117: := Temp7 _ y
-118: + y x Temp8
-119: := Temp8 _ y
+100: / 8 7 temp0
+101: - 9 temp0 temp1
+102: * 1 temp1 temp2
+103: := -temp2 _ temp3
+104: * 5  temp4
+105: + temp3 temp4 temp5
+106: := temp5 _ x

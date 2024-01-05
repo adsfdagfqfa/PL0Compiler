@@ -1,8 +1,8 @@
 PROGRAM add
 VAR x,y;
 BEGIN
-x:=-1*(9-8/7)+5;
-y:=-10;
+x:=-1*(9-8/7)+5*o;
+y:=d;
 y:=2;
 WHILE x<5 DO x:=x+1;
 IF y>0 THEN y:=y-1;

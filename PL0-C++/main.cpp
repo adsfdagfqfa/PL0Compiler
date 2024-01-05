@@ -48,6 +48,10 @@ int main() {
 		return 1; // ·µ»Ø´íÎó´úÂë
 	}
 	int addr = 100;
+	for (auto& entry : table) {
+		cout << entry.name << "  " << entry.kind << endl;
+	}
+
 	for (auto& entry : intermediateCode) {
 		cout << addr << ": " << entry.insType << " " << entry.arg1 << " " << entry.arg2 << " " << entry.result << endl;
 		out << addr << ": " << entry.insType << " " << entry.arg1 << " " << entry.arg2 << " " << entry.result << endl;

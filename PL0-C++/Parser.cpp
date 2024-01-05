@@ -397,8 +397,6 @@ bool Parser::assignStatement(vector<int>& NextList) {
 			}
 		}
 		// 如是:=，进入表达式的分析
-
-
 		b = expression(&s);
 	}
 	else
@@ -408,6 +406,8 @@ bool Parser::assignStatement(vector<int>& NextList) {
 	Quadruple quadruple;
 	quadruple.insType = ":=";
 	quadruple.arg1 = s;
+	if ('a' <= s[0] &&s[0]<= 'z' && findVariable(s) == nullptr)//如果s第一个是字母（变量）同时在符号表中没有找到
+		return false;
 	quadruple.result = comtab.name;//表达式的
 	intermediateCode.push_back(quadruple);
 	nextquad++;
@@ -600,13 +600,24 @@ bool Parser::expression(string* s) {
 	string arg1;
 	b = item(&arg1);
 	if (t) {//如果是加法则不处理，如果是减号
+		
 		Quadruple quadruple;
-		string name = "Temp";
+		string name = "temp";
 		quadruple.result = name + to_string(tempName);;//表达式的新名字
 		tempName++;//分配一个新的名字
 		quadruple.insType = ":=";
 		quadruple.arg1 = string("-") + arg1;
+		
+		if ('a' <= arg1[0] && arg1[0]<= 'z' && findVariable(arg1) == nullptr)//如果arg1第一个是字母（变量）同时在符号表中没有找到
+			return false;
 		intermediateCode.push_back(quadruple);
+	
+		//加入符号表
+		Comtab t;
+		t.kind = 1;
+		t.name = quadruple.result;
+		table.push_back(t);
+		
 		nextquad++;
 		arg1 = quadruple.result;
 	}
@@ -642,13 +653,19 @@ bool Parser::Expression(string arg, string* s) {
 		string arg1;
 		b = item(&arg1);
 
-		string name = "Temp";
+		string name = "temp";
 		Quadruple quadruple;
 		quadruple.insType = oper;
 		quadruple.arg1 = arg;
 		quadruple.arg2 = arg1;
 		quadruple.result = name + to_string(tempName);;//表达式的
 		*s = quadruple.result;
+		//加入符号表
+		Comtab t;
+		t.kind = 1;
+		t.name = quadruple.result;
+		table.push_back(t);
+
 		arg1= quadruple.result;
 		tempName++;//分配一个新的名字
 		intermediateCode.push_back(quadruple);
@@ -704,13 +721,17 @@ bool Parser::Item(string arg,string*s) {
 		string arg1;
 		b = factor(&arg1);
 
-		string name = "Temp";
+		string name = "temp";
 		Quadruple quadruple;
 		quadruple.insType = oper;
 		quadruple.arg1 = arg;
 		quadruple.arg2 = arg1;
 		quadruple.result = name + to_string(tempName);;//表达式的
-
+		//加入符号表
+		Comtab t;
+		t.kind = 1;
+		t.name = quadruple.result;
+		table.push_back(t);
 		tempName++;//分配一个新的名字
 		*s = quadruple.result;
 		arg1= quadruple.result;
