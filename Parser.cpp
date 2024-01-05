@@ -317,7 +317,7 @@ bool Parser::constDefination() {
 				}
 			}
 			// 判断单词是否为无符号整数
-			b = unsignedINT(&comtab);
+			b = unsignedINT();
 		}
 		else
 			return false;//否则报错
@@ -329,12 +329,11 @@ bool Parser::constDefination() {
 }
 
 // <?符号整数>→<数字>{<数字>}
-bool Parser::unsignedINT(Comtab* p ) {
+bool Parser::unsignedINT() {
 	bool b = false;
 	// 判断单词是否为无符号整数
 	if (line[i].type == 11) {
 		i++;
-		p->value = line[i].numValue;//记录该符号的数值
 		b = true;
 		if (i >= line.size()) {
 			b = readline();

@@ -117,7 +117,7 @@ private:
 	bool varSpecification();
 	bool statement(vector<int>& NextList);
 	bool constDefination();
-	bool unsignedINT( Comtab* p);
+	bool unsignedINT();
 	bool assignStatement(vector<int>& NextList);
 	bool ifStatement(vector<int>&NextList);
 	bool whileStatement(vector<int>& NextList);

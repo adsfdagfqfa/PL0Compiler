@@ -48,8 +48,8 @@ int main() {
 		return 1; // ·µ»Ø´íÎó´úÂë
 	}
 	for (auto& entry : table) {
-		cout << entry.kind << " " << entry.name<< " " << entry.value  << endl;
-		out << entry.kind << " " << entry.name << " " << entry.value << endl;
+		cout << entry.kind << " " << entry.name<< " " << endl;
+		out << entry.kind << " " << entry.name << " " << endl;
 	}	
 	for (auto& entry : intermediateCode) {
 		cout << entry.insType<<" "<<entry.arg1<<" "<<entry.arg2<<" "<<entry.result << endl;
