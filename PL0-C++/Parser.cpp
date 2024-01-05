@@ -407,8 +407,8 @@ bool Parser::assignStatement(vector<int>& NextList) {
 	//结束部分
 	Quadruple quadruple;
 	quadruple.insType = ":=";
-	quadruple.arg1 = comtab.name;
-	quadruple.result = s;//表达式的
+	quadruple.arg1 = s;
+	quadruple.result = comtab.name;//表达式的
 	intermediateCode.push_back(quadruple);
 	nextquad++;
 	return b;
