@@ -583,8 +583,11 @@ bool Parser::compoundStatement(vector<int>& NextList) {
 // <表达式>→[+|-]项 <EXPRESSION>
 bool Parser::expression(string* s) {
 	bool b = false;
+	bool t = false;//记录是否含义符号
 	// 判断是否有‘+’或 ‘-’
 	if ((line[i].type == 12) || (line[i].type == 13)) {
+		if (line[i].type == 13)
+			t = true;
 		i++;
 		if (i >= line.size()) {
 			b = readline();
@@ -596,11 +599,25 @@ bool Parser::expression(string* s) {
 	// 进入项的分析
 	string arg1;
 	b = item(&arg1);
+	if (t) {//如果是加法则不处理，如果是减号
+		Quadruple quadruple;
+		string name = "Temp";
+		quadruple.result = name + to_string(tempName);;//表达式的新名字
+		tempName++;//分配一个新的名字
+		quadruple.insType = ":=";
+		quadruple.arg1 = string("-") + arg1;
+		intermediateCode.push_back(quadruple);
+		nextquad++;
+		arg1 = quadruple.result;
+	}
+
 	if (b == true) {
 		// 进入Expression的分析
 
 		b = Expression(arg1, s);
 	}
+	
+
 	
 
 	return b;
