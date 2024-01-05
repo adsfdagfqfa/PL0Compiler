@@ -46,7 +46,9 @@ int main() {
 	else {
 		cout << "语法分析结果：refused！" << endl;
 	}
-	
+	for (auto& entry : table) {
+		cout << entry.kind << " " << entry.name<< " " << entry.value  << endl;
+	}	
 	for (auto& entry : intermediateCode) {
 		cout << entry.insType<<" "<<entry.arg1<<" "<<entry.arg2<<" "<<entry.result << endl;
 	}

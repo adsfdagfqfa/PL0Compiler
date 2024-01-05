@@ -540,8 +540,13 @@ bool Parser::compoundStatement(vector<int>& NextList) {
 		b = statement(next);
 		// 如果单词为分号，则进入循环，分析语句
 		
+		quad = nextquad;
+		for (auto entry : next) {
+			int idx = entry - 100;
+			intermediateCode[idx].result = to_string(quad);
+		}
+		nextList = next;
 		while ((b == true) && (line[i].type == 25)) {
-			
 			i++;
 			if (i >= line.size()) {
 				b = readline();
@@ -696,11 +701,6 @@ bool Parser::Item(string arg,string*s) {
 			// 进入ITEM的分析
 			b = Item(arg1, s);
 		}
-		
-			
-	
-
-
 	}
 	// 空的情况：如果单词在FOLLOW集合中，直接返回
 	else if((line[i].type == 12) || (line[i].type == 13) || (line[i].type == 7) || (line[i].type == 3) || (line[i].type == 24) 
