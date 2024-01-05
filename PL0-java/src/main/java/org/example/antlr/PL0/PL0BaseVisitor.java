@@ -1,5 +1,5 @@
-// Generated from D:/CodeField/Java/compiling/ANTLR-TEST-2/src/antlr/PL0.g4 by ANTLR 4.13.1
-package PL0;
+// Generated from E:/Git/PL0Compiler/PL0-java/src/main/java/org/example/antlr/PL0.g4 by ANTLR 4.13.1
+package org.example.antlr.PL0;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
@@ -166,5 +166,4 @@ public class PL0BaseVisitor<T> extends AbstractParseTreeVisitor<T> implements PL
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitRelationOperator(PL0Parser.RelationOperatorContext ctx) { return visitChildren(ctx); }
-
 }

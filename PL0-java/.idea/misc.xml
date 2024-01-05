@@ -6,7 +6,7 @@
         <PerGrammarGenerationSettings>
           <option name="fileName" value="$PROJECT_DIR$/src/main/java/org/example/antlr/PL0.g4" />
           <option name="autoGen" value="true" />
-          <option name="outputDir" value="D:\CodeField\Java\compiling\PL0\src\main\java\org\example\antlr" />
+          <option name="outputDir" value="E:\Git\PL0Compiler\PL0-java\src\main\java\org\example" />
           <option name="libDir" value="" />
           <option name="encoding" value="" />
           <option name="pkg" value="PL0" />

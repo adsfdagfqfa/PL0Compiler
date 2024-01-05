@@ -1,12 +1,10 @@
 package org.example.antlr.PL0;
 
-import PL0.PL0Parser;
-
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.*;
 
-public class PL0VisitorImpl extends PL0.PL0BaseVisitor<String> {
+public class PL0VisitorImpl extends PL0BaseVisitor<String> {
     private Integer nextquad=100;//初始指令地址
     private Integer tempVarCounter = 0;
     private List<Comtab> table=new ArrayList<>();
@@ -90,7 +88,7 @@ public class PL0VisitorImpl extends PL0.PL0BaseVisitor<String> {
 
     //@Override public String visitConstantSpecification(PL0.PL0Parser.ConstantSpecificationContext ctx) {return visitChildren(ctx); }
 
-    @Override public String visitConstantDefinition(PL0.PL0Parser.ConstantDefinitionContext ctx) {
+    @Override public String visitConstantDefinition(PL0Parser.ConstantDefinitionContext ctx) {
         String leftOperand = visit(ctx.identifier());
         // 获取右操作数
         String rightOperand = visit(ctx.uint());
@@ -117,12 +115,12 @@ public class PL0VisitorImpl extends PL0.PL0BaseVisitor<String> {
     }
 
     @Override
-    public String visitUint(PL0.PL0Parser.UintContext ctx) {
+    public String visitUint(PL0Parser.UintContext ctx) {
         //System.out.println(ctx.getText());
         return ctx.getText();
     }
 
-    @Override public String visitVarSpecification(PL0.PL0Parser.VarSpecificationContext ctx) {
+    @Override public String visitVarSpecification(PL0Parser.VarSpecificationContext ctx) {
         List<PL0Parser.IdentifierContext> identifierList = ctx.identifier();
         for(int i=0;i<identifierList.size();i++){
             String variableName = identifierList.get(i).getText();
@@ -146,13 +144,13 @@ public class PL0VisitorImpl extends PL0.PL0BaseVisitor<String> {
     }
 
     @Override
-    public String visitIdentifier(PL0.PL0Parser.IdentifierContext ctx) {
+    public String visitIdentifier(PL0Parser.IdentifierContext ctx) {
         //System.out.println(ctx.getText());
         return ctx.getText();
     }
 
 
-    @Override public String visitCompoundStatement(PL0.PL0Parser.CompoundStatementContext ctx) {
+    @Override public String visitCompoundStatement(PL0Parser.CompoundStatementContext ctx) {
         List<Integer> nextList=new ArrayList<>();
         int quad;
         List<PL0Parser.StatementContext> statementList = ctx.statement();
@@ -168,7 +166,7 @@ public class PL0VisitorImpl extends PL0.PL0BaseVisitor<String> {
         return null;
     }
 
-    @Override public String visitStatement(PL0.PL0Parser.StatementContext ctx) {
+    @Override public String visitStatement(PL0Parser.StatementContext ctx) {
         List<Integer> nextList=new ArrayList<>();
         if(ctx.ifStatement()!=null) {
             visitIfStatement(ctx.ifStatement());
@@ -200,7 +198,7 @@ public class PL0VisitorImpl extends PL0.PL0BaseVisitor<String> {
 
     //@Override public String visitNullStatement(PL0.PL0Parser.NullStatementContext ctx) { return visitChildren(ctx); }
 
-    @Override public String visitAssignmentStatement(PL0.PL0Parser.AssignmentStatementContext ctx) {
+    @Override public String visitAssignmentStatement(PL0Parser.AssignmentStatementContext ctx) {
         String variableName = visit(ctx.identifier());
         Comtab temp=findComtab(variableName);
         if(temp==null){
@@ -226,15 +224,15 @@ public class PL0VisitorImpl extends PL0.PL0BaseVisitor<String> {
         //生成指令
         Quadruple ins=new Quadruple();
         ins.setInsType(":=");
-        ins.setResult(tempVar.getName());
-        ins.setArg1(temp.getName());
+        ins.setResult(temp.getName());
+        ins.setArg1(tempVar.getName());
         quadruple.put(nextquad,ins);
         nextquad++;//地址自增一
         return null;
 
     }
 
-    @Override public String visitExpression(PL0.PL0Parser.ExpressionContext ctx) {
+    @Override public String visitExpression(PL0Parser.ExpressionContext ctx) {
 
         int childCount = ctx.getChildCount();//获取子节点的数量
 
@@ -248,12 +246,31 @@ public class PL0VisitorImpl extends PL0.PL0BaseVisitor<String> {
             if(operator.equals("-")){
                 String tempVar = newTempVar();//生成新符号
                 //加入符号表
+
                 Comtab t=findComtab(item);
+                if(t==null){//如果不是符号，说明是立即数
+                    t=new Comtab();
+                    t.setValue(Integer.valueOf(item));
+                    t.setName(item);
+                }
+//                t.setName("-"+t.getName());
+//                t.setKind(1);
+//                t.setValue(-t.getValue());
                 Comtab temp=new Comtab();
                 temp.setName(tempVar);
                 temp.setKind(1);
+                //System.out.println(t);
                 temp.setValue(-t.getValue());
                 table.add(temp);
+
+                Quadruple ins=new Quadruple();
+                ins.setInsType(":=");
+                ins.setResult(tempVar);
+                ins.setArg1("-"+t.getName());
+                quadruple.put(nextquad,ins);
+                nextquad++;
+
+
                 return tempVar;//返回临时变量名字
             }
             return item;
@@ -307,7 +324,7 @@ public class PL0VisitorImpl extends PL0.PL0BaseVisitor<String> {
 
     }
 
-    @Override public String visitItem(PL0.PL0Parser.ItemContext ctx) {
+    @Override public String visitItem(PL0Parser.ItemContext ctx) {
 
         int childCount = ctx.getChildCount();//获取子节点的数量
 
@@ -364,7 +381,7 @@ public class PL0VisitorImpl extends PL0.PL0BaseVisitor<String> {
             return null;
     }
 
-    @Override public String visitFactor(PL0.PL0Parser.FactorContext ctx) {
+    @Override public String visitFactor(PL0Parser.FactorContext ctx) {
         if(ctx.identifier()!=null){
             return visit(ctx.identifier());
         }
@@ -379,15 +396,15 @@ public class PL0VisitorImpl extends PL0.PL0BaseVisitor<String> {
             return null;
     }
 
-    @Override public String visitAddOperator(PL0.PL0Parser.AddOperatorContext ctx) {
+    @Override public String visitAddOperator(PL0Parser.AddOperatorContext ctx) {
         return ctx.getText();
     }
 
-    @Override public String visitMulOperator(PL0.PL0Parser.MulOperatorContext ctx) {
+    @Override public String visitMulOperator(PL0Parser.MulOperatorContext ctx) {
         return ctx.getText();
     }
 
-    @Override public String visitIfStatement(PL0.PL0Parser.IfStatementContext ctx) {
+    @Override public String visitIfStatement(PL0Parser.IfStatementContext ctx) {
 
 
         List<Integer> nextList;
@@ -417,7 +434,7 @@ public class PL0VisitorImpl extends PL0.PL0BaseVisitor<String> {
         return null;
     }
 
-    @Override public String visitWhileStatement(PL0.PL0Parser.WhileStatementContext ctx) {
+    @Override public String visitWhileStatement(PL0Parser.WhileStatementContext ctx) {
         List<Integer> nextList;
         Integer quad1;
         Integer quad2;
@@ -449,7 +466,7 @@ public class PL0VisitorImpl extends PL0.PL0BaseVisitor<String> {
     }
 
     @Override
-    public String visitCondition(PL0.PL0Parser.ConditionContext ctx) {
+    public String visitCondition(PL0Parser.ConditionContext ctx) {
         String arg1=visit(ctx.expression(0));//避免报错，检验所用
         String oper=visit(ctx.relationOperator());
         String arg2=visit(ctx.expression(1));
@@ -480,7 +497,7 @@ public class PL0VisitorImpl extends PL0.PL0BaseVisitor<String> {
     }
 
     @Override
-    public String visitRelationOperator(PL0.PL0Parser.RelationOperatorContext ctx) {
+    public String visitRelationOperator(PL0Parser.RelationOperatorContext ctx) {
         return ctx.getText();
     }
 
