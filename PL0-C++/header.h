@@ -59,6 +59,8 @@ struct Token
 	int numValue;
 };
 
+extern vector<Token> line;
+
 class Lexer {
 private:
 	vector<Token> tokenList;

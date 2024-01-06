@@ -37,27 +37,34 @@ int main() {
 	bool result = parser.program();
 	if (result == true) {
 		cout << "语法分析结果：accepted！" << endl;
+		cout << "词法分析单词符号序列如下：" << endl;
+		for (int i = 0; i < line.size(); i++) {
+			cout << line[i].type << " " << line[i].value << " " << line[i].numValue << endl;
+		}
+
+		cout << "符号表如下：" << endl;
+		int addr = 100;
+		for (auto& entry : table) {
+			cout << entry.name << "  " << entry.kind << endl;
+		}
+
+		fstream out;
+		out.open("target.txt", ios::out);
+		if (!out.is_open()) {
+			cerr << "无法打开文件!" << std::endl;
+			return 1; // 返回错误代码
+		}
+		cout << "中间代码如下：" << endl;
+		for (auto& entry : intermediateCode) {
+			cout << addr << ": " << entry.insType << " " << entry.arg1 << " " << entry.arg2 << " " << entry.result << endl;
+			out << addr << ": " << entry.insType << " " << entry.arg1 << " " << entry.arg2 << " " << entry.result << endl;
+			addr++;
+		}
+		out.close();
+		cout << "中间代码已写入文件：target.txt当中" << endl;
 	}
 	else {
 		cout << "语法分析结果：refused！" << endl;
 	}
-	fstream out;
-	out.open("target.txt",ios::out);
-	if (!out.is_open()) {
-		cerr << "无法打开文件!" << std::endl;
-		return 1; // 返回错误代码
-	}
-	int addr = 100;
-	for (auto& entry : table) {
-		cout << entry.name << "  " << entry.kind << endl;
-	}
-
-	for (auto& entry : intermediateCode) {
-		cout << addr << ": " << entry.insType << " " << entry.arg1 << " " << entry.arg2 << " " << entry.result << endl;
-		out << addr << ": " << entry.insType << " " << entry.arg1 << " " << entry.arg2 << " " << entry.result << endl;
-		addr++;
-	}
-	out.close();
-	cout << "中间代码已写入文件：target.txt当中" << endl;
 	return 0;
 }
