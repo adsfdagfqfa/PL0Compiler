@@ -44,8 +44,8 @@ FIRST(复合语句) = { BEGIN }
 FIRST(加法运算符) = { + , - }
 FIRST(乘法运算符) = { * , / }
 FOLLOW集合：
-FOLLOW(EXPRESSION) = { ) , END , DO , THEN , 关系运算符 , ;}
-FOLLOW(ITEM) = { + , -  , ) , END , DO , THEN , 关系运算符, ;}
+FOLLOW(EXPRESSION) = { ) , END , DO , THEN , 关系运算符 , OVER;}
+FOLLOW(ITEM) = { + , -  , ) , END , DO , THEN , 关系运算符, OVER;}
 */
 
 Comtab* findVariable(const std::string& name) {
@@ -635,7 +635,7 @@ bool Parser::expression(string* s) {
 }
 
 // <EXPRESSION>→<加法运算符> <项> <EXPRESSION> | 空
-// FOLLOW(EXPRESSION) = { ) , END , DO , THEN , 关系运算符 , ;}
+// FOLLOW(EXPRESSION) = { ) , END , DO , THEN , 关系运算符 , OVER;}
 bool Parser::Expression(string arg, string* s) {
 	bool b = false;
 	// 判断单词是否为‘+’或‘-’
@@ -680,7 +680,7 @@ bool Parser::Expression(string arg, string* s) {
 	}
 	// 空的情况：如果单词在FOLLOW集合中，直接返回
 	else if ((line[i].type == 7) || (line[i].type == 3) || (line[i].type == 24)|| (line[i].type == 9) 
-		|| ((line[i].type >= 17) && (line[i].type <= 22)) || (line[i].type == 25)) {
+		|| ((line[i].type >= 17) && (line[i].type <= 22)) || (line[i].type == 25) || (line[i].type == 0)) {
 		*s = arg;
 		return true;
 	}
@@ -703,7 +703,7 @@ bool Parser::item(string *s) {
 }
 
 // <ITEM>→<乘法运算符> <因子> <ITEM> | 空
-// FOLLOW(ITEM) = { + , -  , ) , END , DO , THEN , 关系运算符, ;}
+// FOLLOW(ITEM) = { + , -  , ) , END , DO , THEN , 关系运算符, OVER;}
 bool Parser::Item(string arg,string*s) {
 	bool b = false;
 	string oper;
@@ -745,7 +745,7 @@ bool Parser::Item(string arg,string*s) {
 	}
 	// 空的情况：如果单词在FOLLOW集合中，直接返回
 	else if((line[i].type == 12) || (line[i].type == 13) || (line[i].type == 7) || (line[i].type == 3) || (line[i].type == 24) 
-		|| (line[i].type == 9) || ((line[i].type >= 17) && (line[i].type <= 22)) || (line[i].type == 25)){
+		|| (line[i].type == 9) || ((line[i].type >= 17) && (line[i].type <= 22)) || (line[i].type == 25) || (line[i].type == 0)) {
 		*s = arg;
 		return true;
 	}
